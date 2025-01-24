@@ -10,7 +10,7 @@ public class StringDemo4 {
         String c = new String("Amit");
         System.out.println(a == b);
         System.out.println(a == c);
-        String d = new String("Ram");
+        // String d = new String("Ram");
         // b = "Shyam";
     }
 }
