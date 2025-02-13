@@ -1,0 +1,13 @@
+class Solution {
+    public int climbStairs(int n) {
+        // base case
+        if(n<=1){
+            return 1;
+        }
+        // 1st choice - Take 1 Step
+        int option1 = climbStairs(n-1);
+        // 2nd choice - Take 2 Step
+        int option2 = climbStairs(n-2);
+        return option1 + option2;
+    }
+}
