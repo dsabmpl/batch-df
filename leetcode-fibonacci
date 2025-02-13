@@ -1,0 +1,13 @@
+class Solution {
+    public int fib(int n) {
+        // base case
+        if(n==0 || n==1){
+            return n;
+        }
+        // n-1
+        int a = fib(n-1);
+        // n-2
+        int b = fib(n-2);
+        return a + b;
+    }
+}
