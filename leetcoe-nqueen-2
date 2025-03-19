@@ -1,0 +1,63 @@
+class Solution {
+    // instance variable (when object created then it comes)
+    boolean board[][] ; // declare a board
+    public int totalNQueens(int n) {
+        // create n x n board, and fill with false by default
+        board = new boolean[n][n];
+        int count = helper(0, n); 
+        return count;
+    }
+    boolean isQueenNotInAboveRow(int row,  int col){
+        for(int i = row; i>=0; i--){
+            if(board[i][col]){
+                // Queen is Present
+                return false;
+            }
+        }
+        return true;
+    }
+    boolean isQueenNotInLD(int row,  int col){
+        for(int i = row, j = col; i>=0 && j>=0; i--, j--){
+            if(board[i][j]){
+                // Queen is Present
+                return false;
+            }
+        }
+        return true;
+    }
+    boolean isQueenNotInRD(int row,  int col){
+        for(int i = row, j = col; i>=0 && j<board[0].length; i--, j++){
+            if(board[i][j]){
+                // Queen is Present
+                return false;
+            }
+        }
+        return true;
+    }
+    boolean canIPlaceAQueen(int row, int col){
+        // 1. Above Row - There is Queen or Not
+        // 2. Left Diagonal - There is Queen or Not
+        // 3. Right Diagonal - There is Queen or Not
+        return isQueenNotInAboveRow(row, col) && isQueenNotInLD(row, col) 
+        && isQueenNotInRD(row, col);
+    }
+    // row - start and n - end
+    int helper(int row , int n){
+        // Base case  (Board End)
+        if(row == n){
+            return 1;
+        }
+        int count = 0;
+        for(int col = 0; col<n ; col++){
+            if(canIPlaceAQueen(row, col)){
+                // yes i can place a queen
+                board[row][col] = true; // Queen Placed
+                // to do recursive call here , then only u backtrack
+                count = count + helper(row + 1, n);
+                // BackTracking (1. Reach to base case or column loop ends)
+                board[row][col] = false; // undo the queen placement
+            }
+        }
+        return count;
+    }
+}
