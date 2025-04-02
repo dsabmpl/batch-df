@@ -1,0 +1,108 @@
+// Approach - 1 Brute Force TC (2 ^N)
+// class Solution {
+//     public boolean canPartition(int[] nums) {
+//         // do sum of all elements
+//         int sum = 0;
+//         // Enhance for loop
+//         for(int num : nums){
+//             sum = sum + num;
+//         }
+//         // is odd?
+//         if(sum % 2!=0){
+//             return false;
+//         }
+//         // it means even
+//         int target = sum / 2; 
+//         return helper(nums, 0, target);
+//     }
+//     boolean helper(int nums[], int index, int target){
+//         // base case
+//         if(target == 0){
+//             return true;
+//         }
+//         if(target<0 || nums.length==index){
+//             return false;
+//         }
+//         // RR - target - nums[index] || target
+//         // we have 2 choices
+//         // 1. pick it
+//         boolean pickIt = helper(nums, index + 1, target - nums[index]);
+//         // 2. not pick it
+//         boolean notPickIt = helper(nums, index + 1, target );
+//         return pickIt || notPickIt;
+//     }
+// }
+
+// // Approach - 2 Top Down Approach (Memo)
+// class Solution {
+//     public boolean canPartition(int[] nums) {
+//         // do sum of all elements
+//         int sum = 0;
+//         // Enhance for loop
+//         for(int num : nums){
+//             sum = sum + num;
+//         }
+//         // is odd?
+//         if(sum % 2!=0){
+//             return false;
+//         }
+        
+//         // it means even
+//         int target = sum / 2; 
+//         // Array - Wrapper
+//         // object default value is null
+//         Boolean[][] cache= new Boolean[nums.length][target+1];
+//         return helper(nums, 0, target, cache);
+//     }
+//     boolean helper(int nums[], int index, int target, Boolean[][] cache){
+//         // base case
+//         if(target == 0){
+//             return true;
+//         }
+//         if(target<0 || nums.length==index){
+//             return false;
+//         }
+//         // if value is already in cache it means it is already computed
+//         if(cache[index][target]!=null){
+//             return cache[index][target];
+//         }
+//         // RR - target - nums[index] || target
+//         // we have 2 choices
+//         // 1. pick it
+//         boolean pickIt = helper(nums, index + 1, target - nums[index], cache);
+//         // 2. not pick it
+//         boolean notPickIt = helper(nums, index + 1, target, cache );
+//         // once i compute i cache it
+//         cache[index][target] =  pickIt || notPickIt;
+//         return cache[index][target];
+//     }
+// }
+
+// Approach - 3 Bottom Up Approach (Tabulation)
+class Solution{
+    public boolean canPartition(int[] nums) {
+        // do sum of all elements
+        int sum = 0;
+        // Enhance for loop
+        for(int num : nums){
+            sum = sum + num;
+        }
+        // is odd?
+        if(sum % 2!=0){
+            return false;
+        }
+        
+        // it means even
+        int target = sum / 2;
+        boolean dp[] = new boolean[target+1];
+        dp[0] = true;
+        // [1,5,11,5]
+        for(int num : nums){
+            for(int i = target; i>=num; i--){
+                // RR - target - nums[index] || target
+                dp[i] = dp[i-num] || dp[i];
+            }
+        }
+        return dp[target];
+    }
+}
